@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <a href="/dashboard" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.9rem;">&larr; Return to Command Center</a>
+    <h2 style="margin-top: 1rem; font-weight: 300;">{{ project.name }} // <span style="color: var(--text-muted);">Task Matrix</span></h2>
+</div>
+
+<div class="grid">
+    <!-- Assign Task Panel -->
+    <div class="glass-card" style="border-color: rgba(138, 43, 226, 0.3);">
+        <h3 style="margin-bottom: 1.5rem; color: var(--accent-purple);">Assign New Task</h3>
+        <form action="/api/tasks/create" method="POST">
+            <input type="hidden" name="project_id" value="{{ project.id }}">
+            <input type="text" name="title" placeholder="Task Designation" required>
+            <textarea name="description" placeholder="Task Parameters" rows="2"></textarea>
+            
+            <select name="assigned_to" required>
+                <option value="" disabled selected>Select Operative...</option>
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+            
+            <input type="date" name="due_date" required style="color-scheme: dark;">
+            <button type="submit" class="btn" style="width: 100%;">Deploy Task</button>
+        </form>
+    </div>
+
+    <!-- Task List -->
+    {% for task in tasks %}
+    <div class="glass-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+            <span class="status-badge status-{{ task.status }}">{{ task.status.replace('_', ' ') }}</span>
+            <span style="color: var(--text-muted); font-size: 0.75rem; letter-spacing: 1px;">DUE: {{ task.due_date }}</span>
+        </div>
+        <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">{{ task.title }}</h4>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; line-height: 1.5;">
+            {{ task.description }}
+        </p>
+        <div style="font-size: 0.85rem; padding-top: 1rem; border-top: 1px solid var(--surface-border); display: flex; justify-content: space-between;">
+            <span style="color: var(--text-muted);">Assigned to:</span>
+            <strong style="color: var(--accent-cyan);">{{ task.assignee }}</strong>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 style="margin-bottom: 2rem; font-weight: 300;">Project Command Center</h2>
+
+<div class="grid">
+    <!-- Create Project Card -->
+    <div class="glass-card" style="border: 1px dashed var(--accent-cyan); background: rgba(0,240,255,0.02);">
+        <h3 style="margin-bottom: 1.5rem; color: var(--accent-cyan);">+ Deploy New Project</h3>
+        <form action="/api/projects/create" method="POST">
+            <input type="text" name="name" placeholder="Project Name" required>
+            <textarea name="description" placeholder="Define objective..." rows="3" required></textarea>
+            <button type="submit" class="btn btn-cyan" style="width: 100%;">Initialize</button>
+        </form>
+    </div>
+
+    <!-- Active Projects List -->
+    {% for project in projects %}
+    <div class="glass-card">
+        <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;">{{ project.name }}</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.5;">
+            {{ project.description }}
+        </p>
+        <a href="/project/{{ project.id }}" class="btn" style="width: 100%;">Manage Allocation &rarr;</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

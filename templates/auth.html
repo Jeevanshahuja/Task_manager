@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid" style="margin-top: 5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+    
+    <!-- Login Panel -->
+    <div class="glass-card">
+        <h2 style="margin-bottom: 1.5rem; color: var(--accent-cyan);">Initialize Access</h2>
+        <form action="/api/login" method="POST">
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="password" name="password" placeholder="Passkey" required>
+            <button type="submit" class="btn btn-cyan" style="width: 100%; margin-top: 1rem;">Authenticate</button>
+        </form>
+    </div>
+
+    <!-- Signup Panel -->
+    <div class="glass-card" style="border-color: rgba(138, 43, 226, 0.3);">
+        <h2 style="margin-bottom: 1.5rem; color: var(--accent-purple);">Create Identity</h2>
+        <form action="/api/signup" method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="password" name="password" placeholder="Passkey" required>
+            <select name="role">
+                <option value="member">Standard Operative</option>
+                <option value="admin">System Administrator</option>
+            </select>
+            <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">Register Node</button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

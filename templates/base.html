@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager </title>
+    <!-- Link to the external CSS file via Flask -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% if session.user_id %}
+    <nav class="navbar">
+        <a href="/dashboard" class="logo-text">Task Manager </a>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <span style="color: var(--text-muted); font-size: 0.9rem;">
+                <span style="color: var(--accent-cyan);">[{{ session.role | upper }}]</span> {{ session.username }}
+            </span>
+            <a href="/logout" class="btn" style="padding: 8px 16px; font-size: 0.85rem;">Disconnect</a>
+        </div>
+    </nav>
+    {% endif %}
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

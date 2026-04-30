@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 style="margin-bottom: 2rem; font-weight: 300;">Active Workflow</h2>
+
+<div class="grid">
+    {% for task in tasks %}
+    <div class="glass-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+            <span style="font-size: 0.8rem; color: var(--accent-cyan); letter-spacing: 1px;">{{ task.project_name }}</span>
+            <span class="status-badge status-{{ task.status }}">{{ task.status.replace('_', ' ') }}</span>
+        </div>
+        
+        <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">{{ task.title }}</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5;">
+            {{ task.description }}
+        </p>
+        
+        <form action="/api/tasks/{{ task.id }}/update" method="POST" style="display: flex; gap: 10px; border-top: 1px solid var(--surface-border); padding-top: 1.5rem;">
+            <select name="status" style="margin: 0; background: rgba(0,0,0,0.8);">
+                <option value="pending" {% if task.status == 'pending' %}selected{% endif %}>Pending</option>
+                <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                <option value="completed" {% if task.status == 'completed' %}selected{% endif %}>Completed</option>
+            </select>
+            <button type="submit" class="btn btn-cyan" style="padding: 8px 16px;">Sync</button>
+        </form>
+    </div>
+    {% else %}
+    <div class="glass-card" style="grid-column: 1 / -1; text-align: center; padding: 4rem;">
+        <h3 style="color: var(--text-muted);">No active tasks assigned to your queue.</h3>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
